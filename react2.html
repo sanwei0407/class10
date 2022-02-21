@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+</head>
+
+<body>
+
+  <div id="app"></div>
+
+  <script type="text/babel">
+
+    const kfc = ()=>{
+       return 'abc'
+    }
+    
+    const { useState ,useEffect,useRef } = React;
+    
+    // 函数组件 FC  首字母大写 返回的是JSX
+
+    const Cp2 = (props) => {
+      useEffect(()=>{
+          console.log('effect in the cp2 fired')
+          // useEffect 第一个参数函数当中返回的函数 这个返回的函数称为
+          // 清除函数  在组件被销毁的时候会执行
+          return ()=>{
+            console.log('fired when the cp2 destroy')
+          }
+      })
+
+      useEffect(()=>{
+        console.log('props',props)
+      },[])
+
+  
+
+          return (
+            <div>
+              我是 Cp2 组件
+              <button onClick={ ()=> props.c(3) }>执行一个外面传递进来的函数C</button>
+
+            </div>
+          )
+    }
+
+    const Jgm = ()=>{
+
+      const [a,setA] = useState(1); 
+       // 通过useState创建状态传入的是 状态的默认值返回的是数组有两个成员
+       // 第一个是状态，第二个是该修改状态的方法
+       const [b,setB ] = useState('');
+       const [ showCp2,setShowCp2 ] = useState(true)
+       const incrementA = (res)=>{
+         console.log('res',res)
+         setA(a+res)
+       }
+       const r1 = useRef(null); 
+       // 如果ref使用在html节点上那么 r1.current就会得到这个html节点对象
+       // ref转发 快速的让我们得到一个对应的节点或者组件对象
+       const showR1 = ()=>{
+         console.log('r1',r1)
+         r1.current.innerText = "修改后的值"
+       }
+
+       const r2 = useRef(null);
+       const showR2 = ()=>{
+         console.log('r2',r2)
+       }
+
+        // 情况1
+      //  useEffect(()=>{
+      //    console.log('effect fired')
+      //  })
+      // 情况2
+      // useEffect(()=>{
+      //   console.log('effect fired')
+      // },[])
+      // 有情况3
+      // useEffect(()=>{
+      //   console.log('effect fired')
+      // },[a,b])
+  
+      return (
+        <div> 
+            我是jgm
+            <h1 ref={r1}> 我是h1 in jgm </h1>
+            <button onClick={showR1}>显示r1</button>
+            <div>  a in jgm: { a } </div>
+            <button onClick={ ()=>{ setA(a+1)  } }>修改a的按钮</button>
+            <div> b in jgm : { b } </div>
+
+            <div> <input type="text" value={b}  onInput={ (ev)=> setB(ev.target.value)  } /> </div>
+            <button onClick={()=>{ setShowCp2(!showCp2)  }}>切换Cp2组件的渲染</button>
+  
+          { showCp2 && <Cp2 a="1" b={1} c={incrementA}>123    </Cp2> }
+            <button onClick={showR2}>显示r2</button>
+
+        
+         </div>
+      )
+    }
+
+  
+    // 类组件  render函数返回的值就是 渲染的模板
+    class Cp1 extends React.Component {
+      render(){
+        return <div> 我是Cp1组件 </div>
+      }
+    }
+
+    ReactDOM.render((
+      <div> 
+      
+          { kfc() }
+          <Jgm></Jgm>
+          <Cp1></Cp1>
+       </div>
+    ), document.getElementById('app'))
+
+
+  </script>
+
+
+</body>
+
+</html>

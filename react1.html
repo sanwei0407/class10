@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script type="text/babel">
+        
+     // jsx   jsx 其实就是一个表达式  
+     // null undefine 不渲染
+     const a = 'himan'
+     const b = false
+     const c = 'abc'
+     const d = ['a','b','c']
+     const f = { a:1,b:2 }
+     const e = [
+       <li key="1"> 123 </li>,
+       <li key="2"> 456</li>,
+       <li key="3"> 789 </li>
+     ]
+
+     const g = [
+        { id:1,title:'我是标题1'},
+        { id:2, title: '我是标题2' },
+        { id: 3, title: '我是标题3' },
+     ]
+     const h = (arg1,arg2)=>{
+       console.log('function h fired');
+       console.log('arg1', arg1);
+       console.log('arg2', arg2)
+     }
+      ReactDOM.render((
+        <div>
+          <div class={d.join(" ")} > a is : {a}</div>
+          { b ? <div>是否渲染</div> : null }
+          <div style={{color:'red',fontSize:'20px'}}>  style  </div>
+          { e }
+
+          { g.map((item,index)=> <li key={item.id}> { item.title} </li>  )  }
+
+          <button onClick={ h }>我是h按钮</button>
+          <button onClick={ (ev)=>{ h(5,ev)  } }> 按钮2 </button>
+        </div>
+      ) ,document.getElementById('app'))
+
+
+  </script>
+  
+  
+</body>
+</html>
